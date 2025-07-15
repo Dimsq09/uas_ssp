@@ -1,0 +1,455 @@
+/* ASET/CSS/STYLE.CSS */
+
+:root {
+  --green-bright: #38f8d7;
+  --slate: #94a3b8;
+  --lightest-slate: #cbd5e1;
+  --lightest-navy: #0d172a;
+  --font-mono: "Roboto Mono", monospace; /* Ditambahkan untuk detail teknis */
+}
+
+body {
+  font-family: "NTR", sans-serif;
+  background-color: var(--lightest-navy);
+  color: var(--lightest-slate);
+  scroll-behavior: smooth;
+}
+
+h1,
+h2 {
+  color: var(--green-bright);
+  font-weight: bold;
+}
+
+.section {
+  padding: 100px 0;
+}
+
+.section-title::after {
+  content: "";
+  display: block;
+  width: 200px;
+  height: 2px;
+  background-color: var(--green-bright);
+  margin-top: 5px;
+  border-radius: 3%;
+}
+
+/* --- Navbar --- */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1050;
+  background-color: rgb(13, 23, 42);
+  padding: 0.5rem 0;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* REVISI: Container kini menjadi lapisan GRADIENT untuk outline statis */
+.navbar .container {
+  /* Gradien untuk outline yang menyala terus */
+  background: linear-gradient(90deg, #38f8d7, #5ee9d3, #63d4f5);
+
+  border-radius: 50px;
+
+  /* REVISI: Padding dibuat sangat kecil untuk efek "pipih" */
+  padding-top: 0.4rem;
+  padding-bottom: 0.4rem;
+
+  position: relative;
+  overflow: hidden;
+
+  /* Atur z-index untuk lapisan outline */
+  z-index: 2;
+}
+
+/* REVISI: ::before untuk EFEK BIAS CAHAYA yang berputar */
+.navbar .container::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+
+  /* REVISI: Gradien diubah untuk menciptakan "hotspot" cahaya yang bergerak */
+  background: conic-gradient(
+    from 0deg,
+    transparent 0%,
+    transparent 40%,
+    rgba(86, 203, 248, 0.8) 50%,
+    /* Titik puncak cahaya dibuat lebih terang */ transparent 60%,
+    transparent 100%
+  );
+
+  animation: rotateGlow 4s linear infinite; /* Animasi sedikit dipercepat */
+
+  /* Blur disesuaikan untuk menciptakan bias yang lembut tapi terlihat */
+  filter: blur(18px);
+
+  /* Z-index paling rendah agar berada di belakang semuanya */
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* REVISI: ::after kini berfungsi sebagai MASKING GELAP di bagian dalam */
+.navbar .container::after {
+  content: "";
+  position: absolute;
+
+  /* Atur ketebalan outline yang terlihat (misal: 2px) */
+  top: 2px;
+  left: 2px;
+  right: 2px;
+  bottom: 2px;
+
+  /* Warna solid untuk menutupi bagian tengah gradien */
+  background-color: rgb(13, 23, 42);
+
+  /* Radius dibuat sedikit lebih kecil agar pas di dalam */
+  border-radius: 48px;
+
+  /* Z-index di atas outline, di bawah konten */
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* Animasi putar */
+@keyframes rotateGlow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* --- Styling Font & Alignment --- */
+.navbar-brand,
+.nav-link {
+  position: relative;
+  /* Z-index paling tinggi agar bisa diklik */
+  z-index: 4;
+  display: flex;
+  align-items: center;
+}
+
+.navbar-brand {
+  font-size: 2rem;
+  color: #38f8d7 !important;
+  transition: color 0.3s ease;
+}
+
+.nav-link {
+  color: #ccd6f6 !important;
+  font-size: 1.2rem;
+  transition: color 0.3s ease;
+  letter-spacing: 0.5px;
+  margin: 0 0.8rem;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: #63d4f5 !important; /* Warna hover disesuaikan dengan gradien */
+}
+
+/* --- Hero Section & Home --- */
+#home {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  text-align: center;
+}
+
+.hero-title {
+  font-size: 70px;
+  font-weight: 600;
+  color: var(--green-bright);
+}
+
+.cursor {
+  display: inline-block;
+  color: var(--green-bright);
+  font-weight: bold;
+  font-size: 76px;
+  animation: blink 0.8s infinite;
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+/* --- About Section --- */
+#about li {
+  transition: color 0.3s ease;
+}
+
+#about li:hover {
+  color: var(--green-bright);
+  cursor: pointer;
+}
+
+.about-img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 15px;
+  border: 2px solid var(--green-bright); /* Diperbaiki */
+  box-shadow: 0 0 10px var(--green-bright); /* Diperbaiki */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from {
+    box-shadow: 0 0 10px var(--green-bright);
+  }
+  to {
+    box-shadow: 0 0 25px var(--green-bright);
+  }
+}
+
+/* CSS untuk Timeline Section */
+.timeline-section {
+  background-color: #1a1a1a; /* Sesuaikan dengan bg-home Anda */
+  padding: 80px 0;
+}
+
+.timeline {
+  position: relative;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* Garis vertikal di tengah */
+.timeline::after {
+  content: "";
+  position: absolute;
+  width: 3px;
+  background-color: #0dcaf0; /* Warna border-info */
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  margin-left: -1.5px;
+  box-shadow: 0 0 15px rgba(13, 202, 240, 0.5);
+}
+
+.timeline-item {
+  padding: 10px 40px;
+  position: relative;
+  width: 50%;
+}
+
+/* Kontainer untuk item di sisi kiri */
+.timeline-item.left {
+  left: 0;
+}
+
+/* Kontainer untuk item di sisi kanan */
+.timeline-item.right {
+  left: 50%;
+}
+
+/* Ikon di tengah garis */
+.timeline-icon {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  top: 20px;
+  background-color: #212529; /* Warna bg-dark */
+  border: 3px solid #0dcaf0;
+  border-radius: 50%;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+  color: #0dcaf0;
+}
+
+.timeline-item.left .timeline-icon {
+  right: -25px;
+}
+
+.timeline-item.right .timeline-icon {
+  left: -25px;
+}
+
+/* Kartu konten */
+/* Ganti CSS untuk .timeline-content dengan ini */
+.timeline-content {
+  padding: 25px 35px; /* Padding dibuat lebih luas */
+  position: relative;
+  border-radius: 8px;
+  border: 1px solid #333;
+  background: linear-gradient(145deg, #2a2a2a, #1e1e1e);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; /* Transisi untuk hover */
+}
+
+/* Tambahkan blok CSS baru ini untuk efek hover */
+.timeline-content:hover {
+  transform: translateY(-8px);
+  border-color: #38f8d7;
+  /*Diubahkewarna--green-bright*/ /*Box-shadowberlapisuntukefekbiascahaya*/
+  box-shadow: 0 0 15px rgba(56, 248, 215, 0.3),
+    /* Lapisan dasar glow */ 0 0 25px rgba(56, 248, 215, 0.2),
+    /* Lapisan sebaran lebih luas */ -5px -5px 30px rgba(94, 233, 211, 0.15);
+  /* Bias cahaya ke arah kiri atas */
+  -webkit-transform: translateY(-8px);
+  -moz-transform: translateY(-8px);
+  -ms-transform: translateY(-8px);
+  -o-transform: translateY(-8px);
+}
+
+/* Garis penghubung horizontal dan panah */
+.timeline-content::before {
+  content: "";
+  position: absolute;
+  top: 35px;
+  width: 25px;
+  height: 3px;
+  background-color: #0dcaf0;
+  z-index: 1;
+}
+
+.timeline-item.left .timeline-content {
+  text-align: right;
+}
+
+.timeline-item.left .timeline-content::before {
+  right: -25px;
+}
+
+.timeline-item.right .timeline-content::before {
+  left: -25px;
+}
+
+/* Penyesuaian untuk tampilan mobile */
+@media screen and (max-width: 768px) {
+  .timeline::after {
+    left: 31px;
+  }
+  .timeline-item {
+    width: 100%;
+    padding-left: 70px;
+    padding-right: 25px;
+  }
+  .timeline-item.right {
+    left: 0%;
+  }
+  .timeline-item.left .timeline-icon,
+  .timeline-item.right .timeline-icon {
+    left: 6px;
+  }
+  .timeline-item.left .timeline-content,
+  .timeline-item.right .timeline-content {
+    text-align: left;
+  }
+  .timeline-item.left .timeline-content::before,
+  .timeline-item.right .timeline-content::before {
+    left: -25px;
+  }
+}
+
+/* Tingkatkan spesifisitas dengan menambahkan '.h-100' dan '.shadow' */
+#projects .card.h-100.shadow,
+#certificates .card.h-100.shadow {
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  border: 1px solid #333;
+}
+
+#projects .card:hover,
+#certificates .card:hover {
+  transform: translateY(-8px);
+  border-color: #38f8d7;
+  box-shadow: 0 0 15px rgba(56, 248, 215, 0.3), 0 0 25px rgba(56, 248, 215, 0.2),
+    -5px -5px 30px rgba(94, 233, 211, 0.15) !important; /* Tambahkan !important */
+}
+
+/* --- Lain-lain & Komponen --- */
+.social-sidebar {
+  position: fixed;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  background-color: #0d172a;
+  padding: 15px 15px;
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  z-index: 1000;
+  border: 1px solid #2c3e50;
+}
+
+.social-sidebar a {
+  color: white;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.3s ease;
+}
+
+.social-sidebar a:hover {
+  color: var(--green-bright);
+}
+
+.btn-outline-info {
+  color: var(--green-bright);
+  border-color: var(--green-bright);
+}
+
+.btn-outline-info:hover,
+.btn-outline-info:focus,
+.btn-outline-info:active {
+  background-color: var(--green-bright);
+  color: #0f172a;
+  border-color: var(--green-bright);
+}
+
+.card-title {
+  color: var(--green-bright);
+}
+
+.text-green-bright {
+  color: var(--green-bright) !important;
+}
+
+footer {
+  padding: 20px 0;
+  background-color: #0f172a;
+  color: #ccc;
+  text-align: center;
+}
+
+/* --- Animasi --- */
+.reveal {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 0.8s ease-out, transform 0.6s ease-out;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* --- Media Queries --- */
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 36px;
+  }
+  .cursor {
+    font-size: 42px;
+  }
+}
