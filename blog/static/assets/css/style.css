@@ -1,16 +1,17 @@
-/* ASET/CSS/STYLE.CSS */
-
 :root {
   --green-bright: #38f8d7;
   --slate: #94a3b8;
   --lightest-slate: #cbd5e1;
   --lightest-navy: #0d172a;
-  --font-mono: "Roboto Mono", monospace; /* Ditambahkan untuk detail teknis */
+  --green-base: #1a3a2e; /* Base color hijau yang lebih gelap */
+  --green-medium: #16423c; /* Hijau medium untuk variasi */
+  --green-dark: #0f2922; /* Hijau gelap untuk kontras */
+  --font-mono: "Roboto Mono", monospace;
 }
 
 body {
   font-family: "NTR", sans-serif;
-  background-color: var(--lightest-navy);
+  background-color: var(--green-base); /* Diubah ke hijau */
   color: var(--lightest-slate);
   scroll-behavior: smooth;
 }
@@ -40,31 +41,22 @@ h2 {
   position: sticky;
   top: 0;
   z-index: 1050;
-  background-color: rgb(13, 23, 42);
+  background-color: var(--green-dark); /* Diubah ke hijau gelap */
   padding: 0.5rem 0;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
 }
 
-/* REVISI: Container kini menjadi lapisan GRADIENT untuk outline statis */
 .navbar .container {
-  /* Gradien untuk outline yang menyala terus */
   background: linear-gradient(90deg, #38f8d7, #5ee9d3, #63d4f5);
-
   border-radius: 50px;
-
-  /* REVISI: Padding dibuat sangat kecil untuk efek "pipih" */
   padding-top: 0.4rem;
   padding-bottom: 0.4rem;
-
   position: relative;
   overflow: hidden;
-
-  /* Atur z-index untuk lapisan outline */
   z-index: 2;
 }
 
-/* REVISI: ::before untuk EFEK BIAS CAHAYA yang berputar */
 .navbar .container::before {
   content: "";
   position: absolute;
@@ -72,50 +64,33 @@ h2 {
   left: -50%;
   width: 200%;
   height: 200%;
-
-  /* REVISI: Gradien diubah untuk menciptakan "hotspot" cahaya yang bergerak */
   background: conic-gradient(
     from 0deg,
     transparent 0%,
     transparent 40%,
     rgba(86, 203, 248, 0.8) 50%,
-    /* Titik puncak cahaya dibuat lebih terang */ transparent 60%,
+    transparent 60%,
     transparent 100%
   );
-
-  animation: rotateGlow 4s linear infinite; /* Animasi sedikit dipercepat */
-
-  /* Blur disesuaikan untuk menciptakan bias yang lembut tapi terlihat */
+  animation: rotateGlow 4s linear infinite;
   filter: blur(18px);
-
-  /* Z-index paling rendah agar berada di belakang semuanya */
   z-index: 1;
   pointer-events: none;
 }
 
-/* REVISI: ::after kini berfungsi sebagai MASKING GELAP di bagian dalam */
 .navbar .container::after {
   content: "";
   position: absolute;
-
-  /* Atur ketebalan outline yang terlihat (misal: 2px) */
   top: 2px;
   left: 2px;
   right: 2px;
   bottom: 2px;
-
-  /* Warna solid untuk menutupi bagian tengah gradien */
-  background-color: rgb(13, 23, 42);
-
-  /* Radius dibuat sedikit lebih kecil agar pas di dalam */
+  background-color: var(--green-dark); /* Diubah ke hijau gelap */
   border-radius: 48px;
-
-  /* Z-index di atas outline, di bawah konten */
   z-index: 3;
   pointer-events: none;
 }
 
-/* Animasi putar */
 @keyframes rotateGlow {
   from {
     transform: rotate(0deg);
@@ -125,11 +100,9 @@ h2 {
   }
 }
 
-/* --- Styling Font & Alignment --- */
 .navbar-brand,
 .nav-link {
   position: relative;
-  /* Z-index paling tinggi agar bisa diklik */
   z-index: 4;
   display: flex;
   align-items: center;
@@ -151,7 +124,7 @@ h2 {
 
 .nav-link:hover,
 .nav-link.active {
-  color: #63d4f5 !important; /* Warna hover disesuaikan dengan gradien */
+  color: #63d4f5 !important;
 }
 
 /* --- Hero Section & Home --- */
@@ -161,6 +134,7 @@ h2 {
   justify-content: center;
   min-height: 100vh;
   text-align: center;
+  background-color: var(--green-base); /* Diubah ke hijau */
 }
 
 .hero-title {
@@ -188,6 +162,10 @@ h2 {
 }
 
 /* --- About Section --- */
+#about {
+  background-color: var(--green-medium) !important; /* Diubah ke hijau medium */
+}
+
 #about li {
   transition: color 0.3s ease;
 }
@@ -201,8 +179,8 @@ h2 {
   max-width: 100%;
   height: auto;
   border-radius: 15px;
-  border: 2px solid var(--green-bright); /* Diperbaiki */
-  box-shadow: 0 0 10px var(--green-bright); /* Diperbaiki */
+  border: 2px solid var(--green-bright);
+  box-shadow: 0 0 10px var(--green-bright);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   animation: glow 2s ease-in-out infinite alternate;
 }
@@ -216,9 +194,13 @@ h2 {
   }
 }
 
-/* CSS untuk Timeline Section */
+/* --- Studies Section --- */
+#studies {
+  background-color: var(--green-medium) !important; /* Diubah ke hijau medium */
+}
+
 .timeline-section {
-  background-color: #1a1a1a; /* Sesuaikan dengan bg-home Anda */
+  background-color: var(--green-medium);
   padding: 80px 0;
 }
 
@@ -228,12 +210,11 @@ h2 {
   margin: 0 auto;
 }
 
-/* Garis vertikal di tengah */
 .timeline::after {
   content: "";
   position: absolute;
   width: 3px;
-  background-color: #0dcaf0; /* Warna border-info */
+  background-color: #0dcaf0;
   top: 0;
   bottom: 0;
   left: 50%;
@@ -247,23 +228,20 @@ h2 {
   width: 50%;
 }
 
-/* Kontainer untuk item di sisi kiri */
 .timeline-item.left {
   left: 0;
 }
 
-/* Kontainer untuk item di sisi kanan */
 .timeline-item.right {
   left: 50%;
 }
 
-/* Ikon di tengah garis */
 .timeline-icon {
   position: absolute;
   width: 50px;
   height: 50px;
   top: 20px;
-  background-color: #212529; /* Warna bg-dark */
+  background-color: var(--green-dark);
   border: 3px solid #0dcaf0;
   border-radius: 50%;
   z-index: 10;
@@ -282,34 +260,24 @@ h2 {
   left: -25px;
 }
 
-/* Kartu konten */
-/* Ganti CSS untuk .timeline-content dengan ini */
 .timeline-content {
-  padding: 25px 35px; /* Padding dibuat lebih luas */
+  padding: 25px 35px;
   position: relative;
   border-radius: 8px;
   border: 1px solid #333;
-  background: linear-gradient(145deg, #2a2a2a, #1e1e1e);
+  background: linear-gradient(145deg, var(--green-dark), var(--green-medium));
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; /* Transisi untuk hover */
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
-/* Tambahkan blok CSS baru ini untuk efek hover */
 .timeline-content:hover {
   transform: translateY(-8px);
   border-color: #38f8d7;
-  /*Diubahkewarna--green-bright*/ /*Box-shadowberlapisuntukefekbiascahaya*/
   box-shadow: 0 0 15px rgba(56, 248, 215, 0.3),
-    /* Lapisan dasar glow */ 0 0 25px rgba(56, 248, 215, 0.2),
-    /* Lapisan sebaran lebih luas */ -5px -5px 30px rgba(94, 233, 211, 0.15);
-  /* Bias cahaya ke arah kiri atas */
-  -webkit-transform: translateY(-8px);
-  -moz-transform: translateY(-8px);
-  -ms-transform: translateY(-8px);
-  -o-transform: translateY(-8px);
+    0 0 25px rgba(56, 248, 215, 0.2),
+    -5px -5px 30px rgba(94, 233, 211, 0.15);
 }
 
-/* Garis penghubung horizontal dan panah */
 .timeline-content::before {
   content: "";
   position: absolute;
@@ -332,8 +300,129 @@ h2 {
   left: -25px;
 }
 
-/* Penyesuaian untuk tampilan mobile */
-@media screen and (max-width: 768px) {
+/* --- Projects Section --- */
+#projects {
+  background-color: var(--green-medium) !important; /* Diubah ke hijau medium */
+}
+
+#projects .card.h-100.shadow,
+#certificates .card.h-100.shadow {
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  border: 1px solid #333;
+  background-color: var(--green-dark); /* Diubah ke hijau gelap */
+}
+
+#projects .card:hover,
+#certificates .card:hover {
+  transform: translateY(-8px);
+  border-color: #38f8d7;
+  box-shadow: 0 0 15px rgba(56, 248, 215, 0.3), 0 0 25px rgba(56, 248, 215, 0.2),
+    -5px -5px 30px rgba(94, 233, 211, 0.15) !important;
+}
+
+/* --- Certificates Section --- */
+#certificates {
+  background-color: var(--green-medium) !important; /* Diubah ke hijau medium */
+}
+
+/* --- Contact Section --- */
+#contact {
+  background-color: var(--green-medium) !important; /* Diubah ke hijau medium */
+}
+
+.form-control {
+  background-color: var(--green-dark);
+  border-color: #333;
+  color: var(--lightest-slate);
+}
+
+.form-control:focus {
+  background-color: var(--green-dark);
+  border-color: var(--green-bright);
+  color: var(--lightest-slate);
+  box-shadow: 0 0 0 0.2rem rgba(56, 248, 215, 0.25);
+}
+
+/* --- Footer --- */
+footer {
+  padding: 20px 0;
+  background-color: var(--green-dark) !important; /* Diubah ke hijau gelap */
+  color: #ccc;
+  text-align: center;
+}
+
+/* --- Social Sidebar --- */
+.social-sidebar {
+  position: fixed;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  background-color: var(--green-dark);
+  padding: 15px 15px;
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  z-index: 1000;
+  border: 1px solid var(--green-bright);
+}
+
+.social-sidebar a {
+  color: white;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.3s ease;
+}
+
+.social-sidebar a:hover {
+  color: var(--green-bright);
+}
+
+.btn-outline-info {
+  color: var(--green-bright);
+  border-color: var(--green-bright);
+}
+
+.btn-outline-info:hover,
+.btn-outline-info:focus,
+.btn-outline-info:active {
+  background-color: var(--green-bright);
+  color: var(--green-dark);
+  border-color: var(--green-bright);
+}
+
+.card-title {
+  color: var(--green-bright);
+}
+
+.text-green-bright {
+  color: var(--green-bright) !important;
+}
+
+/* --- Animasi --- */
+.reveal {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 0.8s ease-out, transform 0.6s ease-out;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* --- Media Queries --- */
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 36px;
+  }
+  .cursor {
+    font-size: 42px;
+  }
+  
   .timeline::after {
     left: 31px;
   }
@@ -359,97 +448,93 @@ h2 {
   }
 }
 
-/* Tingkatkan spesifisitas dengan menambahkan '.h-100' dan '.shadow' */
-#projects .card.h-100.shadow,
-#certificates .card.h-100.shadow {
-  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-  border: 1px solid #333;
+/* Kelas untuk background hijau */
+.bg-home {
+  background-color: var(--green-medium) !important;
 }
 
-#projects .card:hover,
-#certificates .card:hover {
-  transform: translateY(-8px);
-  border-color: #38f8d7;
-  box-shadow: 0 0 15px rgba(56, 248, 215, 0.3), 0 0 25px rgba(56, 248, 215, 0.2),
-    -5px -5px 30px rgba(94, 233, 211, 0.15) !important; /* Tambahkan !important */
+/* Perbaikan untuk card background */
+.card.bg-dark {
+  background-color: var(--green-dark) !important;
 }
 
-/* --- Lain-lain & Komponen --- */
-.social-sidebar {
-  position: fixed;
-  top: 50%;
-  right: 0;
-  transform: translateY(-50%);
-  background-color: #0d172a;
-  padding: 15px 15px;
-  border-top-left-radius: 15px;
-  border-bottom-left-radius: 15px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  z-index: 1000;
-  border: 1px solid #2c3e50;
+/* Perbaikan untuk showcase */
+.showcase {
+  background-color: var(--green-dark) !important;
 }
+.footer {
+        background-color: var(--bs-success-emphasis-bg); /* Hijau tema utama */
+        color: var(--bs-success-emphasis); /* Warna hijau terang untuk teks */
+        font-size: 14px;
+      }
 
-.social-sidebar a {
-  color: white;
-  font-size: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: color 0.3s ease;
-}
+      .footer h5,
+      .footer h4 {
+        color: var(--bs-success-emphasis); /* Heading menggunakan warna hijau terang */
+        font-weight: bold;
+      }
 
-.social-sidebar a:hover {
-  color: var(--green-bright);
-}
+      .footer p,
+      .footer a {
+        color: var(--bs-success); /* Teks dan link hijau default */
+      }
 
-.btn-outline-info {
-  color: var(--green-bright);
-  border-color: var(--green-bright);
-}
+      .footer a:hover {
+        color: var(--bs-success-emphasis); /* Warna hijau lebih terang saat hover */
+        text-decoration: underline;
+      }
 
-.btn-outline-info:hover,
-.btn-outline-info:focus,
-.btn-outline-info:active {
-  background-color: var(--green-bright);
-  color: #0f172a;
-  border-color: var(--green-bright);
-}
+      .footer .btn-success {
+        background-color: var(--bs-success); /* Tombol hijau default */
+        border: none;
+        color: #ffffff; /* Teks tombol putih */
+      }
 
-.card-title {
-  color: var(--green-bright);
-}
+      .footer .btn-success:hover {
+        background-color: var(--bs-success-emphasis); /* Warna hijau lebih terang saat hover */
+      }
 
-.text-green-bright {
-  color: var(--green-bright) !important;
-}
+      .footer .border-secondary {
+        border-color: var(--bs-success); /* Garis pemisah hijau */
+      }
 
-footer {
-  padding: 20px 0;
-  background-color: #0f172a;
-  color: #ccc;
-  text-align: center;
-}
+      .footer .fab,
+      .footer .fas {
+        color: var(--bs-success); /* Ikon hijau */
+      }
 
-/* --- Animasi --- */
-.reveal {
-  opacity: 0;
-  transform: translateY(50px);
-  transition: opacity 0.8s ease-out, transform 0.6s ease-out;
-}
+      .footer .fab:hover,
+      .footer .fas:hover {
+        color: var(--bs-success-emphasis); /* Ikon berubah lebih terang saat hover */
+      }
 
-.reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
+      .floating-button {
+        position: fixed;
+        bottom: 20px; /* Jarak dari bawah */
+        right: 20px; /* Jarak dari kanan */
+        z-index: 1000; /* Supaya berada di atas elemen lainnya */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Bayangan */
+        border-radius: 50px; /* Membuat tombol lebih bulat */
+      }
 
-/* --- Media Queries --- */
-@media (max-width: 768px) {
-  .hero-title {
-    font-size: 36px;
-  }
-  .cursor {
-    font-size: 42px;
-  }
-}
+      .floating-button a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px; /* Jarak ikon dengan teks */
+        background-color: #145a32; /* Warna hijau */
+        color: white; /* Teks putih */
+        font-weight: bold;
+        padding: 10px 20px; /* Spasi di dalam tombol */
+        text-decoration: none;
+        border-radius: 50px;
+      }
+
+      .floating-button a:hover {
+        background-color: #1e8449; /* Warna hijau lebih terang saat hover */
+        text-decoration: none;
+      }
+
+      .floating-button i {
+        font-size: 20px; /* Ukuran ikon */
+      }

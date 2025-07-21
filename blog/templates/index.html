@@ -1,7 +1,9 @@
 {% extends "base.html" %} {% load static %} {% block content %}
+
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-home sticky-top">
   <div class="container">
-    <a class="navbar-brand text-green-bright fw-bold" href="#">Antonius.</a>
+    <a class="navbar-brand text-green-bright fw-bold" href="#">Dhimaz Satrya.</a>
     <button
       class="navbar-toggler"
       type="button"
@@ -14,9 +16,6 @@
       <ul class="navbar-nav ms-auto">
         <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
         <li class="nav-item"><a class="nav-link" href="#about">About me</a></li>
-        <li class="nav-item">
-          <a class="nav-link" href="#studies">Studies</a>
-        </li>
         <li class="nav-item">
           <a class="nav-link" href="#projects">Projects</a>
         </li>
@@ -36,24 +35,7 @@
     <h1 class="hero-title">
       <span id="typed-text"></span><span class="cursor">|</span>
     </h1>
-    <h2 class="text-secondary mt-3">I create stuff sometimes.</h2>
-    <p class="lead mt-4">
-      Berawal dari kota Malang yang dinamis, perjalanan saya di dunia teknologi
-      dimulai. Saya adalah seorang mahasiswa Semester 4 di jurusan Teknik
-      Informatika. Ketertarikan mendalam pada bagaimana mesin dapat belajar,
-      berpikir, dan memecahkan masalah seperti manusia membawa saya untuk fokus
-      pada penjurusan Sistem Cerdas. Bagi saya, Kecerdasan Buatan (AI) bukan
-      hanya sekumpulan kode atau algoritma, melainkan sebuah kanvas untuk
-      menciptakan solusi yang lebih efisien dan berdampak. Saya menikmati proses
-      belajar, mulai dari konsep dasar machine learning, deep learning, hingga
-      implementasinya dalam proyek-proyek kecil. Website ini adalah etalase dari
-      eksplorasi saya di dunia AI dan pengembangan perangkat lunak. Saya percaya
-      bahwa teknologi terbaik lahir dari kolaborasi. Mari terhubung dan
-      berdiskusi untuk menciptakan sesuatu yang luar biasa!
-    </p>
-    <button class="btn btn-outline-info fw-bold mt-4" onclick="sayHi()">
-      📬 Say hi!
-    </button>
+    <h2 class="text-secondary mt-3">I play games, I code, I eat.</h2>
   </div>
 
   <div class="social-sidebar">
@@ -76,372 +58,271 @@
   <div class="container py-5">
     <div class="row align-items-center">
       <div class="col-md-7">
-        <h2 class="section-title">/ about me</h2>
-        <p class="fs-5">
-          Saat ini, saya adalah seorang
-          <strong>mahasiswa semester 4</strong> jurusan
-          <strong>Teknik Informatika</strong> di
-          <span class="text-green-bright">Institut Asia Malang</span>. Saya
-          memiliki minat besar di bidang pengembangan perangkat lunak, desain
-          web, dan teknologi cloud.
-        </p>
-        <p class="fs-5">
-          Berikut beberapa teknologi yang sedang saya gunakan dalam
-          pengembangan:
-        </p>
-        <div class="row fs-5">
-          <div class="col-6 col-md-4">
-            <ul class="list-unstyled">
-              <li>▸ TypeScript</li>
-              <li>▸ React.js</li>
-              <li>▸ JavaScript (ES6+)</li>
-            </ul>
+        {% if profile %}
+          <h2 class="section-title">{{ profile.judul }}</h2>
+          <p class="fs-5">
+            Halo! Saya <strong>{{ profile.semester }}</strong> jurusan
+            <strong>{{ profile.jurusan }}</strong> di
+            <span class="text-green-bright">{{ profile.universitas }}</span> {{ profile.deskripsi_utama }}
+          </p>
+          <p class="fs-5">
+            {{ profile.deskripsi_skill }}
+          </p>
+          <div class="row fs-5">
+            <div class="col-6 col-md-4">
+              <ul class="list-unstyled">
+                {% for tech in profile.get_teknologi_kiri_list %}
+                  <li>▸ {{ tech }}</li>
+                {% endfor %}
+              </ul>
+            </div>
+            <div class="col-6 col-md-4">
+              <ul class="list-unstyled">
+                {% for tech in profile.get_teknologi_kanan_list %}
+                  <li>▸ {{ tech }}</li>
+                {% endfor %}
+              </ul>
+            </div>
           </div>
-          <div class="col-6 col-md-4">
-            <ul class="list-unstyled">
-              <li>▸ Python</li>
-              <li>▸ Java</li>
-              <li>▸ C#</li>
-            </ul>
+          <p class="mt-3 fs-5">
+            {{ profile.deskripsi_hobi }}
+          </p>
+        {% else %}
+          <h2 class="section-title">Tentang Saya</h2>
+          <div class="text-center py-5">
+            <i class="bi bi-person-plus display-1 text-info mb-3"></i>
+            <h4 class="text-light mb-3">Halaman profil belum ditambahkan</h4>
+            <p class="text-muted mb-4">Silahkan menambahkan profil terlebih dahulu</p>
           </div>
-        </div>
-        <p class="mt-3 fs-5">
-          Di luar kuliah, saya senang mengikuti perkembangan sains, bermain
-          video game, dan terkadang membuat konten di TikTok.
-        </p>
+        {% endif %}
+        
+        <!-- Tombol Edit Profile untuk Admin -->
+        {% if user.is_staff %}
+          <div class="mt-4">
+            {% if profile %}
+              <a href="/admin/profil/profile/{{ profile.id }}/change/" target="_blank" class="btn btn-outline-warning">
+                <i class="bi bi-pencil-square me-2"></i>Edit Profil
+              </a>
+            {% else %}
+              <a href="/admin/profil/profile/add/" target="_blank" class="btn btn-outline-success">
+                <i class="bi bi-plus-circle me-2"></i>Tambah Profil
+              </a>
+            {% endif %}
+          </div>
+        {% endif %}
       </div>
       <div class="col-md-5 text-center">
-        <img
-          src="{% static 'assets/image/_DSC4057 (1).png' %}"
-          alt="Profile"
-          class="img-fluid about-img"
-        />
+        {% if profile and profile.foto_profil %}
+          <img
+            src="{{ profile.foto_profil.url }}"
+            alt="Profile"
+            class="img-fluid about-img"
+          />
+        {% else %}
+          <img
+            src="{% static 'assets/image/profil.png' %}"
+            alt="Profile"
+            class="img-fluid about-img"
+          />
+        {% endif %}
       </div>
     </div>
   </div>
 </section>
 
-<section id="studies" class="section bg-home text-white">
-  <div class="container py-5">
-    <h2 class="section-title mb-5">/ my studies</h2>
 
-    <div class="timeline">
-      <div class="timeline-item left">
-        <div class="timeline-content">
-          <h5 class="card-title text-green-bright">Institut Asia Malang</h5>
-          <p class="card-text text-secondary mb-2">2023 - Sekarang</p>
-          <p class="card-text">
-            Mengambil program studi Teknik Informatika dengan fokus pada
-            peminatan Sistem Cerdas. Aktif di Himpunan Mahasiswa Teknik
-            Informatika.
-          </p>
-        </div>
-      </div>
 
-      <div class="timeline-item right">
-        <div class="timeline-content">
-          <h5 class="card-title text-green-bright">
-            SMK Pemuda 3 Kesamben Blitar
-          </h5>
-          <p class="card-text text-secondary mb-2">2020 - 2023</p>
-          <p class="card-text">
-            Jurusan Teknik Kendaraan Ringan (TKR), mempelajari perawatan,
-            perbaikan, dan sistem kerja kendaraan bermotor, khususnya mobil.
-          </p>
-        </div>
-      </div>
-
-      <div class="timeline-item left">
-        <div class="timeline-content">
-          <h5 class="card-title text-green-bright">
-            SMP Katolik Santo Antonius Kalipare Malang
-          </h5>
-          <p class="card-text text-secondary mb-2">2017 - 2020</p>
-          <p class="card-text">
-            Aktif dalam kegiatan ekstrakurikuler Pramuka dan berpartisipasi
-            dalam beberapa kompetisi tingkat kecamatan.
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
 
 <section id="projects" class="pt-5 pb-5 bg-home">
   <div class="container text-light">
-    <h2 class="section-title">/ projects</h2>
+    <h2 class="section-title">My Projects</h2>
 
+    <!-- Carousel/Showcase -->
     <div
       class="showcase mt-4 mb-5 rounded shadow-lg bg-dark position-relative overflow-hidden"
       style="height: 360px"
     >
-      <img
-        id="showcase-img"
-        src="{% static 'assets/image/project1.png' %}"
-        class="w-100 h-100 object-fit-cover position-absolute top-0 start-0"
-        alt="Showcase Project"
-      />
+      {% if featured_projects %}
+        <img
+          id="showcase-img"
+          src="{{ featured_projects.0.image.url }}"
+          class="w-100 h-100 object-fit-cover position-absolute top-0 start-0"
+          alt="{{ featured_projects.0.title }}"
+        />
 
-      <div
-        class="position-absolute top-0 start-0 w-100 h-100"
-        style="background: rgba(0, 0, 0, 0.5)"
-      ></div>
+        <div
+          class="position-absolute top-0 start-0 w-100 h-100"
+          style="background: rgba(0, 0, 0, 0.5)"
+        ></div>
 
-      <div
-        class="position-absolute top-50 start-50 translate-middle text-center text-light px-3"
-      >
-        <h4
-          id="showcase-title"
-          class="text-info fw-bold mb-2 text-green-bright"
+        <div
+          class="position-absolute top-50 start-50 translate-middle text-center text-light px-3"
         >
-          Clone Website Dicoding
-        </h4>
+          <h4
+            id="showcase-title"
+            class="text-info fw-bold mb-2 text-green-bright"
+          >
+            {{ featured_projects.0.title }}
+          </h4>
+          <p id="showcase-description" class="mb-3 small">
+            {{ featured_projects.0.description|truncatewords:20 }}
+          </p>
+          <p id="showcase-technologies" class="text-green-bright small mb-3">
+            {{ featured_projects.0.technologies }}
+          </p>
 
-        <a
-          id="showcase-link"
-          href="https://github.com/antoniusrikihermawan"
-          target="_blank"
-          class="btn btn-outline-info btn-sm"
+          {% if featured_projects.0.github_link %}
+          <a
+            id="showcase-link"
+            href="{{ featured_projects.0.github_link }}"
+            target="_blank"
+            class="btn btn-outline-info btn-sm"
+          >
+            <i class="bi bi-github me-1"></i> View on GitHub
+          </a>
+          {% endif %}
+        </div>
+
+        {% if featured_projects|length > 1 %}
+        <button
+          onclick="prevProject()"
+          class="btn btn-outline-info position-absolute top-50 start-0 translate-middle-y ms-2"
         >
-          <i class="bi bi-github me-1"></i> View on GitHub
+          <i class="bi bi-chevron-left"></i>
+        </button>
+        <button
+          onclick="nextProject()"
+          class="btn btn-outline-info position-absolute top-50 end-0 translate-middle-y me-2"
+        >
+          <i class="bi bi-chevron-right"></i>
+        </button>
+        {% endif %}
+      {% else %}
+        <!-- Fallback when no featured projects -->
+        <div class="d-flex align-items-center justify-content-center h-100">
+          <div class="text-center">
+            <i class="bi bi-folder-plus display-1 text-info mb-3"></i>
+            <h4 class="text-light">No Featured Projects Yet</h4>
+            <p class="text-muted">Add some projects and mark them as featured to display here</p>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- Hidden JSON data for JavaScript -->
+    <script id="featured-projects-data" type="application/json">
+    [
+      {% for project in featured_projects %}
+      {
+        "title": "{{ project.title|escapejs }}",
+        "description": "{{ project.description|truncatewords:20|escapejs }}",
+        "image": "{{ project.image.url }}",
+        "github_link": "{{ project.github_link|default:'' }}",
+        "technologies": "{{ project.technologies|escapejs }}"
+      }{% if not forloop.last %},{% endif %}
+      {% endfor %}
+    ]
+    </script>
+
+    <!-- Admin Controls -->
+    {% if user.is_staff %}
+    <div class="text-center">
+      <div class="btn-group" role="group">
+        <a href="/admin/profil/project/add/" target="_blank" class="btn btn-outline-success">
+          <i class="bi bi-plus-circle me-2"></i>Add New Project
+        </a>
+        <a href="/admin/profil/project/" target="_blank" class="btn btn-outline-info">
+          <i class="bi bi-gear me-2"></i>Manage Projects
         </a>
       </div>
-
-      <button
-        onclick="prevProject()"
-        class="btn btn-outline-info position-absolute top-50 start-0 translate-middle-y ms-2"
-      >
-        <i class="bi bi-chevron-left"></i>
-      </button>
-      <button
-        onclick="nextProject()"
-        class="btn btn-outline-info position-absolute top-50 end-0 translate-middle-y me-2"
-      >
-        <i class="bi bi-chevron-right"></i>
-      </button>
+      <p class="text-muted mt-2 small">
+        <i class="bi bi-info-circle me-1"></i>
+        Mark projects as "Featured" to display them in the carousel above
+      </p>
     </div>
-
-    <div class="row g-4">
-      <div class="col-md-4">
-        <div class="card bg-dark text-light h-100 border border-info shadow">
-          <img
-            src="{% static 'assets/image/project1.png' %}"
-            class="card-img-top"
-            alt="Project 1"
-          />
-          <div class="card-body">
-            <h5 class="card-title text-light">Clone Website Dicoding</h5>
-            <p class="card-text small">
-              Dicoding adalah sebuah platform pendidikan teknologi yang
-              menawarkan berbagai program untuk mendukung pengembangan
-              keterampilan pemrograman dan digital bagi individu di Indonesia.
-            </p>
-            <p class="text-green-bright">HTML, CSS, Javascript, Bootstrap</p>
-          </div>
-          <div class="card-footer bg-transparent border-top-0">
-            <a
-              href="https://github.com/antoniusrikihermawan"
-              target="_blank"
-              class="text-info text-decoration-none"
-            >
-              <i class="bi bi-github me-1"></i> View on GitHub
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-4">
-        <div class="card bg-dark text-light h-100 border border-info shadow">
-          <img
-            src="{% static 'assets/image/project2.png' %}"
-            class="card-img-top"
-            alt="Project 2"
-          />
-          <div class="card-body">
-            <h5 class="card-title text-light">Bali Travel</h5>
-            <p class="card-text small">
-              Beberapa platform pariwisata dunia juga telah menganugerahkan
-              berbagai macam penghargaan kepada Bali sebagai salah satu
-              destinasi favorit yang setidaknya harus dikunjungi sekali dalam
-              hidup Anda.
-            </p>
-            <p class="text-green-bright">Javascript, HTML / CSS</p>
-          </div>
-          <div class="card-footer bg-transparent border-top-0">
-            <a
-              href="https://github.com/antoniusrikihermawan/UAS-CSP.git"
-              target="_blank"
-              class="text-info text-decoration-none"
-            >
-              <i class="bi bi-github me-1"></i> View on GitHub
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-4">
-        <div class="card bg-dark text-light h-100 border border-info shadow">
-          <img
-            src="{% static 'assets/image/project3.png' %}"
-            class="card-img-top"
-            alt="Project 3"
-          />
-          <div class="card-body">
-            <h5 class="card-title text-light">Portofolio Website</h5>
-            <p class="card-text small">
-              Saya seorang Insinyur Perangkat Lunak yang bersemangat membangun
-              sistem yang dapat diskalakan yang menjembatani kesenjangan antara
-              backend yang tangguh.
-            </p>
-            <p class="text-green-bright">HTML, CSS, JS</p>
-          </div>
-          <div class="card-footer bg-transparent border-top-0">
-            <a
-              href="https://github.com/antoniusrikihermawan/portofolio-ytCodehal.git"
-              target="_blank"
-              class="text-info text-decoration-none"
-            >
-              <i class="bi bi-github me-1"></i> View on GitHub
-            </a>
-          </div>
-        </div>
-      </div>
+    {% else %}
+    <!-- Message for non-admin users -->
+    <div class="text-center">
+      <p class="text-muted">
+        <i class="bi bi-code-slash me-2"></i>
+        More projects coming soon! Check back later for updates.
+      </p>
     </div>
+    {% endif %}
   </div>
 </section>
 
 <section id="certificates" class="section bg-home text-white">
   <div class="container py-5">
-    <h2 class="section-title">/ certificates</h2>
+    <h2 class="section-title">Beberapa Sertifikat yang Saya Dapatkan</h2>
 
     <div class="row g-4 mt-4">
+      {% for certificate in certificates %}
       <div class="col-md-4">
         <div class="card bg-dark text-light h-100 border border-info shadow">
           <img
-            src="{% static 'assets/image/Sertifikat(1).jpg' %}"
+            src="{{ certificate.image.url }}"
             class="card-img-top"
-            alt="Certificate 1"
+            alt="{{ certificate.title }}"
+            style="height: 200px; object-fit: cover;"
           />
           <div class="card-body">
-            <h5 class="card-title text-light">
-              Preparation Course for Azure AI Fundamentals
-            </h5>
-            <p class="card-text small">ElevAIte</p>
-            <a
-              href="{% static 'assets/image/Sertifikat(3).jpg' %}"
-              target="_blank"
-              class="btn btn-outline-info btn-sm mt-2"
-              >View Certificate</a
-            >
+            <h5 class="card-title text-light">{{ certificate.title }}</h5>
+            <p class="card-text small">{{ certificate.organization }}</p>
+            <p class="card-text small text-muted">{{ certificate.date_earned|date:"F Y" }}</p>
+            
+            <!-- Tombol Edit/Admin -->
+            <div class="d-flex gap-2 mt-3">
+              {% if certificate.certificate_file %}
+              <a
+                href="{{ certificate.certificate_file.url }}"
+                target="_blank"
+                class="btn btn-outline-info btn-sm"
+                >View Certificate</a
+              >
+              {% endif %}
+              
+              <!-- Tombol Edit untuk Admin -->
+              {% if user.is_staff %}
+              <a
+                href="/admin/app_name/certificate/{{ certificate.id }}/change/"
+                target="_blank"
+                class="btn btn-outline-warning btn-sm"
+                title="Edit Certificate"
+              >
+                <i class="bi bi-pencil-square"></i>
+              </a>
+              {% endif %}
+            </div>
           </div>
         </div>
       </div>
-      <div class="col-md-4">
-        <div class="card bg-dark text-light h-100 border border-info shadow">
-          <img
-            src="{% static 'assets/image/Sertifikat(2).jpg' %}"
-            class="card-img-top"
-            alt="Certificate 2"
-          />
-          <div class="card-body">
-            <h5 class="card-title text-light">NVIDIA Powers The World's AI</h5>
-            <p class="card-text small">Advanced AI</p>
-            <a
-              href="{% static 'assets/image/Sertifikat(2).jpg' %}"
-              target="_blank"
-              class="btn btn-outline-info btn-sm mt-2"
-              >View Certificate</a
-            >
+      {% empty %}
+      <!-- Fallback jika tidak ada certificate di database -->
+      <div class="d-flex align-items-center justify-content-center h-100">
+          <div class="text-center">
+            <i class="bi bi-folder-plus display-1 text-info mb-3"></i>
+            <h4 class="text-light">No Featured Sertificated</h4>
+            <p class="text-muted">Add some Sertificated and mark them as featured to display here</p>
           </div>
         </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card bg-dark text-light h-100 border border-info shadow">
-          <img
-            src="{% static 'assets/image/Sertifikat(3).jpg' %}"
-            class="card-img-top"
-            alt="Certificate 3"
-          />
-          <div class="card-body">
-            <h5 class="card-title text-light">
-              Microsoft Azure AI Fundamentals
-            </h5>
-            <p class="card-text small">Talenta AI Indonesia</p>
-            <a
-              href="{% static 'assets/image/Sertifikat(3).jpg' %}"
-              target="_blank"
-              class="btn btn-outline-info btn-sm mt-2"
-              >View Certificate</a
-            >
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card bg-dark text-light h-100 border border-info shadow">
-          <img
-            src="{% static 'assets/image/Sertifikat(4).jpg' %}"
-            class="card-img-top"
-            alt="Certificate 4"
-          />
-          <div class="card-body">
-            <h5 class="card-title text-light">
-              Merencanakan dan Mengembangkan Solusi AI di Azure
-            </h5>
-            <p class="card-text small">Microsoft</p>
-            <a
-              href="{% static 'assets/image/Sertifikat(4).jpg' %}"
-              target="_blank"
-              class="btn btn-outline-info btn-sm mt-2"
-              >View Certificate</a
-            >
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card bg-dark text-light h-100 border border-info shadow">
-          <img
-            src="{% static 'assets/image/Sertifikat(5).jpg' %}"
-            class="card-img-top"
-            alt="Certificate 5"
-          />
-          <div class="card-body">
-            <h5 class="card-title text-light">Cyber Security Dasar</h5>
-            <p class="card-text small">ID-Networkes</p>
-            <a
-              href="{% static 'assets/image/Sertifikat(5).jpg' %}"
-              target="_blank"
-              class="btn btn-outline-info btn-sm mt-2"
-              >View Certificate</a
-            >
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card bg-dark text-light h-100 border border-info shadow">
-          <img
-            src="{% static 'assets/image/Sertifikat(6).jpg' %}"
-            class="card-img-top"
-            alt="Certificate 6"
-          />
-          <div class="card-body">
-            <h5 class="card-title text-light">Microsoft Azure Fundamentals</h5>
-            <p class="card-text small">Talenta AI Indonesia</p>
-            <a
-              href="{% static 'assets/image/Sertifikat(6).jpg' %}"
-              target="_blank"
-              class="btn btn-outline-info btn-sm mt-2"
-              >View Certificate</a
-            >
-          </div>
-        </div>
-      </div>
+      {% endfor %}
     </div>
+
+    <!-- Tombol Admin untuk menambah certificate -->
+    {% if user.is_staff %}
+    <div class="text-center mt-4">
+      <a href="/admin/profil/certificate/add/" target="_blank" class="btn btn-outline-success">
+        <i class="bi bi-plus-circle me-2"></i>Add New Certificate
+      </a>
+    </div>
+    {% endif %}
   </div>
 </section>
 
 <section id="contact" class="section bg-home text-white py-5">
   <div class="container">
-    <h2 class="section-title">/ contact us</h2>
+    <h2 class="section-title">Hubungi saya</h2>
 
     <form
       class="needs-validation mt-4"
@@ -501,108 +382,66 @@
   </div>
 </section>
 
-<footer class="bg-home text-secondary py-5">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-4 mb-4">
-        <h4 class="text-white mb-3">Antonius Riki</h4>
-        <p>
-          Mahasiswa Teknik Informatika yang bersemangat dalam pengembangan
-          perangkat lunak dan kecerdasan buatan. Mari terhubung!
-        </p>
-        <div class="social-links mt-3">
-          <a
-            href="https://youtube.com"
-            target="_blank"
-            class="text-green-bright me-3 fs-4"
-            ><i class="bi bi-youtube"></i
-          ></a>
-          <a
-            href="https://linkedin.com"
-            target="_blank"
-            class="text-green-bright me-3 fs-4"
-            ><i class="bi bi-linkedin"></i
-          ></a>
-          <a
-            href="https://twitter.com"
-            target="_blank"
-            class="text-green-bright me-3 fs-4"
-            ><i class="bi bi-twitter"></i
-          ></a>
-          <a
-            href="https://facebook.com"
-            target="_blank"
-            class="text-green-bright me-3 fs-4"
-            ><i class="bi bi-facebook"></i
-          ></a>
-          <a
-            href="https://github.com/antoniusrikihermawan"
-            target="_blank"
-            class="text-green-bright fs-4"
-            ><i class="bi bi-github"></i
-          ></a>
+<section id="footer" class="bg-dark text-white py-5">
+      <div class="container">
+        <!-- Lokasi Kami -->
+        <div class="row mb-4">
+          <div class="col-md-6">
+            <h4 class="fw-bold">Lokasi Kami</h4>
+            <p>Lokasi produksi kami.</p>
+            <p>
+              <i class="fas fa-map-marker-alt"></i>Jl. rembuksari no 63 mojolangu kec lowokwaru, kab Malang, Jawa Timur
+            </p>
+          </div>
+          <div class="col-md-6">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3951.5798308447693!2d112.62501537588827!3d-7.93887387907263!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd629e71e40304b%3A0x53d92b3243e471bf!2sJl.%20Rembuksari%20No.63%2C%20Mojolangu%2C%20Kec.%20Lowokwaru%2C%20Kota%20Malang%2C%20Jawa%20Timur%2065142!5e0!3m2!1sid!2sid!4v1737489129112!5m2!1sid!2sid" 
+              width="100%"
+              height="250"
+              style="border:0;"
+              allowfullscreen=""
+              loading="lazy"
+            ></iframe>
+          </div>
+        </div>
+    
+        <!-- Footer Links -->
+        <div class="row">
+          <div class="col-md-3">
+            <h5 class="fw-bold">Navigation</h5>
+            <ul class="list-unstyled">
+              <li><a href="#" class="text-white text-decoration-none">Home</a></li>
+              <li><a href="#" class="text-white text-decoration-none">Product</a></li>
+              <li><a href="#" class="text-white text-decoration-none">Login</a></li>
+              <li><a href="#" class="text-white text-decoration-none">Contact</a></li>
+            </ul>
+          </div>
+          <div class="col-md-3">
+            <h5 class="fw-bold">Support</h5>
+            <p><a href="#" class="text-white text-decoration-none">Whatsapp</a></p>
+          </div>
+          <div class="col-md-3">
+            <h5 class="fw-bold">Contact</h5>
+            <p><i class="fas fa-instagram"></i> Dhimaz</p>
+            <p><i class="fas fa-phone"></i> +62 858 1685 3655</p>
+            <p><i class="fas fa-map-marker-alt"></i> Jl. rembuksari no 63 mojolangu kec lowokwaru, kab Malang, Jawa Timur</p>
+          </div>
+            <div class="mt-3">
+              <a href="#" class="text-white me-2"><i class="fab fa-instagram"></i></a>
+              <a href="#" class="text-white me-2"><i class="fab fa-tiktok"></i></a>
+              <a href="#" class="text-white"><i class="fas fa-shopping-bag"></i></a>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="col-md-4 mb-4">
-        <h5 class="text-white mb-3">Quick Links</h5>
-        <ul class="list-unstyled">
-          <li>
-            <a href="#home" class="text-secondary text-decoration-none">Home</a>
-          </li>
-          <li>
-            <a href="#about" class="text-secondary text-decoration-none"
-              >About Me</a
-            >
-          </li>
-          <li>
-            <a href="#studies" class="text-secondary text-decoration-none"
-              >Studies</a
-            >
-          </li>
-          <li>
-            <a href="#projects" class="text-secondary text-decoration-none"
-              >Projects</a
-            >
-          </li>
-          <li>
-            <a href="#certificates" class="text-secondary text-decoration-none"
-              >Certificates</a
-            >
-          </li>
-          <li>
-            <a href="#contact" class="text-secondary text-decoration-none"
-              >Contact</a
-            >
-          </li>
-        </ul>
+    
+      <!-- Footer Bottom -->
+      <div class="text-center py-3 mt-4 border-top border-secondary">
+       <p class="copyrigth">&copy;DHIMAZ SATRYA | ILIKECHOCOCAKE</p>
       </div>
-      <div class="col-md-4 mb-4">
-        <h5 class="text-white mb-3">Address</h5>
-        <p>
-          <i class="bi bi-geo-alt-fill me-2 text-green-bright"></i>Arjosari,
-          Kalipare, Kabupaten Malang, Jawa Timur 65166
-        </p>
-        <div class="map-container mt-3">
-          <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.666421924393!2d106.8249641750033!3d-6.17539239380977!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f5d2e764b12d%3A0x3d2ad6e1e0e9bcc8!2sMonumen%20Nasional!5e0!3m2!1sid!2sid!4v1720700482593!5m2!1sid!2sid"
-            width="100%"
-            height="150"
-            style="border: 0"
-            allowfullscreen=""
-            loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade"
-          ></iframe>
-        </div>
-      </div>
-    </div>
-    <hr class="border-secondary" />
-    <div class="text-center">
-      <p class="mb-0">
-        © <span id="current-year"></span> antoniusrikihermawan. All rights
-        reserved.
-      </p>
-      <p class="mb-0">Seluruh hak cipta dilindungi.</p>
-    </div>
-  </div>
-</footer>
+    </section>
+
+
+
 {% endblock %}
+

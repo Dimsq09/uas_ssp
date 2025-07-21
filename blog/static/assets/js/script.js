@@ -1,11 +1,9 @@
-// ASET/JS/SCRIPT.JS
-
-// Menunggu seluruh konten halaman dimuat sebelum menjalankan skrip
+// Updated JavaScript for dynamic projects from database
 document.addEventListener("DOMContentLoaded", function () {
   // --- Efek Mengetik (Typing Effect) pada Hero Section ---
   const typedEl = document.getElementById("typed-text");
   if (typedEl) {
-    const fullText = "hi, antonius riki hermawan here.";
+    const fullText = "Hai, Aku Dhimaz Satrya!";
     let index = 0;
 
     function type() {
@@ -31,57 +29,80 @@ document.addEventListener("DOMContentLoaded", function () {
     type();
   }
 
-  // --- Logika Showcase Project ---
-  const projects = [
-    {
-      title: "Clone Website Dicoding",
-      image: "/static/assets/image/project1.png",
-      link: "https://github.com/antoniusrikihermawan",
-    },
-    {
-      title: "Bali Travel",
-      image: "/static/assets/image/project2.png",
-      link: "https://github.com/antoniusrikihermawan/UAS-CSP.git",
-    },
-    {
-      title: "Portofolio Website",
-      image: "/static/assets/image/project3.png",
-      link: "https://github.com/antoniusrikihermawan/portofolio-ytCodehal.git",
-    },
-  ];
+  // --- Dynamic Project Showcase Logic ---
+  // Get featured projects from Django template (passed as JSON)
+  const featuredProjectsData = document.getElementById('featured-projects-data');
+  let projects = [];
+  
+  if (featuredProjectsData) {
+    try {
+      projects = JSON.parse(featuredProjectsData.textContent);
+    } catch (e) {
+      console.error('Error parsing featured projects data:', e);
+      projects = [];
+    }
+  }
 
   let currentIndex = 0;
   const showcaseImg = document.getElementById("showcase-img");
   const showcaseTitle = document.getElementById("showcase-title");
+  const showcaseDescription = document.getElementById("showcase-description");
+  const showcaseTechnologies = document.getElementById("showcase-technologies");
   const showcaseLink = document.getElementById("showcase-link");
 
   function updateShowcase() {
-    if (showcaseImg) {
-      // Hanya berjalan jika elemen showcase ada
+    if (showcaseImg && projects.length > 0) {
       const project = projects[currentIndex];
       showcaseImg.src = project.image;
+      showcaseImg.alt = project.title;
       showcaseTitle.textContent = project.title;
-      showcaseLink.href = project.link;
+      
+      if (showcaseDescription) {
+        showcaseDescription.textContent = project.description;
+      }
+      
+      if (showcaseTechnologies) {
+        showcaseTechnologies.textContent = project.technologies;
+      }
+      
+      if (showcaseLink && project.github_link) {
+        showcaseLink.href = project.github_link;
+        showcaseLink.style.display = 'inline-block';
+      } else if (showcaseLink) {
+        showcaseLink.style.display = 'none';
+      }
     }
   }
 
-  // Menambahkan event listener ke tombol navigasi proyek
-  // Pastikan tombol ini ada di HTML Anda dengan onclick="nextProject()" dan onclick="prevProject()"
+  // Navigation functions for project carousel
   window.nextProject = function () {
-    currentIndex = (currentIndex + 1) % projects.length;
-    updateShowcase();
+    if (projects.length > 1) {
+      currentIndex = (currentIndex + 1) % projects.length;
+      updateShowcase();
+    }
   };
 
   window.prevProject = function () {
-    currentIndex = (currentIndex - 1 + projects.length) % projects.length;
-    updateShowcase();
+    if (projects.length > 1) {
+      currentIndex = (currentIndex - 1 + projects.length) % projects.length;
+      updateShowcase();
+    }
   };
 
-  // Inisialisasi showcase saat halaman pertama kali dimuat
+  // Auto-slide projects every 5 seconds
+  if (projects.length > 1) {
+    setInterval(() => {
+      window.nextProject();
+    }, 5000);
+  }
+
+  // Initialize showcase
   updateShowcase();
 
+  // --- Existing code for animations and other features ---
+  // ... (keep all your existing code for typing effect, scroll animations, etc.)
+  
   // --- Animasi Scroll (Fade-in) & Navigasi Aktif ---
-  // 1. Animasi Fade-in on Scroll
   const revealElements = document.querySelectorAll(".reveal");
 
   const revealObserver = new IntersectionObserver(
@@ -100,7 +121,7 @@ document.addEventListener("DOMContentLoaded", function () {
     revealObserver.observe(el);
   });
 
-  // 2. Navigasi Aktif saat Scroll
+  // Navigation active state on scroll
   const sections = document.querySelectorAll("section[id]");
   const navLinks = document.querySelectorAll(".navbar-nav .nav-link");
 
@@ -126,20 +147,15 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-// --- Fungsi Global Lainnya ---
-
-// Fungsi untuk tombol 'Say Hi'
+// --- Global Functions ---
 function sayHi() {
   alert("Thanks for reaching out! ✨");
 }
 
-// Efek latar belakang navbar saat di-scroll
-// Diletakkan di luar DOMContentLoaded karena tidak bergantung pada elemen spesifik
+// Navbar background effect on scroll
 window.addEventListener("scroll", function () {
   const navbar = document.querySelector(".navbar");
   if (window.scrollY > 50) {
-    // Gunakan kelas yang sudah ada di CSS Anda untuk konsistensi
-    // Anda bisa membuat kelas baru misal .navbar-scrolled
     navbar.style.backgroundColor = "rgba(13, 23, 42, 0.85)";
   } else {
     navbar.style.backgroundColor = "rgba(0, 0, 0, 0.2)";
@@ -152,7 +168,7 @@ function showCertificateModal(title, issuer, description, fileUrl, type) {
   document.getElementById("modalDescription").innerText = description;
 
   const container = document.getElementById("modalImageContainer");
-  container.innerHTML = ""; // Clear previous content
+  container.innerHTML = "";
 
   if (type === "image") {
     const img = document.createElement("img");

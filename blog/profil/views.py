@@ -1,33 +1,53 @@
 from django.shortcuts import render, redirect
-from .forms import ContactForm
-from .models import ContactMessage
+from .forms import ContactForm, FormBarang
+from .models import ContactMessage, Certificate, Project, Profile  # Tambahkan Profile
 from django.contrib import messages
 
 
 def home(request):
-     return render(request, 'index.html')
-
-from django.shortcuts import render
-from .forms import FormBarang
+    # Mengambil data certificate, projects, dan profile dari database
+    certificates = Certificate.objects.all()
+    projects = Project.objects.all()
+    featured_projects = Project.objects.filter(is_featured=True)[:3]  # Max 3 for carousel
+    
+    # Mengambil profile (ambil yang pertama jika ada)
+    profile = Profile.objects.first()
+    
+    context = {
+        'certificates': certificates,
+        'projects': projects,
+        'featured_projects': featured_projects,
+        'profile': profile,
+    }
+    return render(request, 'index.html', context)
 
 def portofolio(request):
-    return render(request, 'index.html')
+    certificates = Certificate.objects.all()
+    projects = Project.objects.all()
+    featured_projects = Project.objects.filter(is_featured=True)[:3]
+    profile = Profile.objects.first()
+    
+    context = {
+        'certificates': certificates,
+        'projects': projects,
+        'featured_projects': featured_projects,
+        'profile': profile,
+    }
+    return render(request, 'index.html', context)
 
 def form_barang(request):
-    from_barang = FormBarang()
-    return render(request, 'tambah.html', {'form_barang': from_barang})
-
-#contact view
-# def contact_view(request):
-#     if request.method == 'POST':
-#         form = ContactForm(request.POST)
-#         if form.is_valid():
-#             form.save()
-#             return render(request, 'contact_success.html')
-#     else:
-#         form = ContactForm()
-#     return render(request, 'contact.html', {'form': form})
-
+    if request.method == 'POST':
+        form_barang = FormBarang(request.POST)
+        if form_barang.is_valid():
+            form_barang.save()
+            messages.success(request, 'Data barang berhasil ditambahkan!')
+            return redirect('tambah_barang')  # redirect ke halaman form lagi
+        else:
+            messages.error(request, 'Terjadi kesalahan saat menyimpan data.')
+    else:
+        form_barang = FormBarang()
+    
+    return render(request, 'Tambah.html', {'form_barang': form_barang})
 
 def contact_view(request):
     if request.method == "POST":
